@@ -22,16 +22,16 @@
 
       // Get image handle
       //
-      var smallImage = document.getElementById('smallImage');
+      var Capture = document.getElementById('Capture');
 
       // Unhide image elements
       //
-      smallImage.style.display = 'block';
+      Capture.style.display = 'block';
 
       // Show the captured photo
       // The in-line CSS rules are used to resize the image
       //
-      smallImage.src = "data:image/jpeg;base64," + imageData;
+      Capture.src = "data:image/jpeg;base64," + imageData;
     }
 
     // Called when a photo is successfully retrieved

@@ -1,4 +1,5 @@
- // Wait for device API libraries to load
+
+    // Wait for device API libraries to load
     //
     document.addEventListener("deviceready", onDeviceReady, false);
 
@@ -11,7 +12,7 @@
     // onSuccess Geolocation
     //
     function onSuccess(position) {
-        var element = document.getElementById('currentlocation');
+        var element = document.getElementById('geolocation');
         element.innerHTML = 'Latitude: '           + position.coords.latitude              + '<br />' +
                             'Longitude: '          + position.coords.longitude             + '<br />' +
                             'Altitude: '           + position.coords.altitude              + '<br />' +
