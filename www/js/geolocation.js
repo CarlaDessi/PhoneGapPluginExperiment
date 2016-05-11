@@ -1,5 +1,5 @@
 
-    // Wait for device API libraries to load
+						  // Wait for device API libraries to load
     //
     document.addEventListener("deviceready", onDeviceReady, false);
 
@@ -21,6 +21,18 @@
                             'Heading: '            + position.coords.heading               + '<br />' +
                             'Speed: '              + position.coords.speed                 + '<br />' +
                             'Timestamp: '          + position.timestamp                    + '<br />';
+							
+		var mapDiv = document.getElementById('map');
+        var map = new google.maps.Map(mapDiv, {
+          center: {lat: position.coords.latitude, lng: position.coords.longitude},
+          zoom: 18
+        });
+		var marker = new google.maps.Marker({
+    	position: {lat: position.coords.latitude, lng: position.coords.longitude},
+    	map: map,
+    	title: 'Hello World!'
+  });
+		
     }
 
     // onError Callback receives a PositionError object

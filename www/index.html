@@ -34,18 +34,13 @@ body {
 	padding-top: 70px;
 	margin-top: 20px;
 }
+#map {
+	width: 500px;
+	height: 400px;
+}
 </style>
-<style>
-      #map {
-        width: 500px;
-        height: 400px;
-      }
-    </style>
-
 </head>
 <body>
-
-
 <nav class="navbar navbar-default navbar-fixed-top">
   <div class="container">
     <div class="navbar-header">
@@ -65,10 +60,7 @@ body {
     </div>
   </div>
 </nav>
-<div class="container"> 
-  
-  <!-- Main component for a primary marketing message or call to action -->
-  
+<div class="container">
   <div class="jumbotron" id="home">
     <h1>Home</h1>
     <p></p>
@@ -81,8 +73,7 @@ body {
     <button onclick="capturePhotoEdit();" class="btn btn-warning">Capture Editable Photo</button>
     <br>
     <br>
-    <img style="display:none;width:100px;" id="Capture" src="" /> 
-    <br>
+    <img style="display:none;width:100px;" id="Capture" src="" /> <br>
     <button onclick="getPhoto(pictureSource.PHOTOLIBRARY);" class="btn btn-success">From Photo Library</button>
     <br>
     <br>
@@ -92,97 +83,45 @@ body {
     <img style="display:none;width:100px;" id="largeImage" src="" /> </div>
   <div class="jumbotron" id="geolocationdiv" style="display:none">
     <h1>GeoLocation</h1>
-       <p id="geolocation">Finding geolocation...</p>
-
-      
-
-
-    
+    <p id="geolocation">Finding geolocation...</p>
   </div>
   <div class="jumbotron" id="compass" style="display:none">
     <h1>Compass</h1>
-    <p id="currentheading">Finding heading...</p>
+    <h3 id="heading">Waiting for heading...</h3>
+    <div class="btn-group" role="group" aria-label="...">
+      <button type="button" class="btn btn-danger" onclick="startWatch();">Start</button>
+      <button type="button" class="btn btn-success" onclick="stopWatch();">Stop</button>
+    </div>
   </div>
   <div class="jumbotron" id="media" style="display:none">
     <h1>Media</h1>
-     <a href="#" class="btn large" onclick="playAudio('http://audio.ibeat.org/content/p1rj1s/p1rj1s_-_rockGuitar.mp3');">Play Audio</a>
-        <a href="#" class="btn large" onclick="pauseAudio();">Pause Playing Audio</a>
-        <a href="#" class="btn large" onclick="stopAudio();">Stop Playing Audio</a>
-        <p id="audio_position"></p>
+    <h2>Record</h2>
+    <div class="btn-group" role="group" aria-label="...">
+      <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-record" aria-hidden="true"></span></button>
+      <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-stop" aria-hidden="true"></span></button>
+    </div>
+    <h2>Play Back</h2>
+    <div class="btn-group" role="group" aria-label="...">
+      <button type="button" class="btn btn-default" onclick="playAudio('http://audio.ibeat.org/content/p1rj1s/p1rj1s_-_rockGuitar.mp3');"><span class="glyphicon glyphicon-play" aria-hidden="true"></span></button>
+      <button type="button" class="btn btn-default" onclick="pauseAudio();"><span class="glyphicon glyphicon-pause" aria-hidden="true"></span></button>
+      <button type="button" class="btn btn-default" onclick="stopAudio();"><span class="glyphicon glyphicon-stop" aria-hidden="true"></span></button>
+    </div>
   </div>
 </div>
-<!-- /container --> 
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+<!-- /container -->
+<div id="map"></div>
+<script src="https://maps.googleapis.com/maps/api/js?callback=initMap" async defer></script> 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script> 
 <script type="text/javascript" src="cordova.js"></script> 
-<script type="text/javascript" src="js/geolocation.js"></script> 
 <script type="text/javascript" src="js/index.js"></script> 
 <script type="text/javascript" src="js/bootstrap.js"></script> 
 <script type="text/javascript" src="js/camera.js"></script> 
-<script type="text/javascript" src="js/media.js"></script>
-
-
-<script>
-$("#nav li a").on("click", function(e){
-    e.preventDefault();
-    $("#nav li").removeClass("active"); //Remove any previously "active" li
-    $("#home, #camera, #geolocationdiv, #compass, #media").hide(); //Hide all "pages"
-    console.log($(this).attr("href"))
-    $($(this).attr("href")).show(); //Show only the current target
-    $(this).closest("li").addClass("active"); //Set click li as active
-});
-</script> 
-
+<script type="text/javascript" src="js/media.js"></script> 
+<script type="text/javascript" src="js/geolocation.js"></script> 
+<script type="text/javascript" src="js/compass.js"></script> 
+<script type="text/javascript" src="js/menu.js"></script> 
 <script>
     
 </script>
-<div id="map"></div>
-    <script src="https://maps.googleapis.com/maps/api/js?callback=initMap"
-        async defer></script>
-    <script>
-						  // Wait for device API libraries to load
-    //
-    document.addEventListener("deviceready", onDeviceReady, false);
-
-    // device APIs are available
-    //
-    function onDeviceReady() {
-        navigator.geolocation.getCurrentPosition(onSuccess, onError);
-    }
-
-    // onSuccess Geolocation
-    //
-    function onSuccess(position) {
-        var element = document.getElementById('geolocation');
-        element.innerHTML = 'Latitude: '           + position.coords.latitude              + '<br />' +
-                            'Longitude: '          + position.coords.longitude             + '<br />' +
-                            'Altitude: '           + position.coords.altitude              + '<br />' +
-                            'Accuracy: '           + position.coords.accuracy              + '<br />' +
-                            'Altitude Accuracy: '  + position.coords.altitudeAccuracy      + '<br />' +
-                            'Heading: '            + position.coords.heading               + '<br />' +
-                            'Speed: '              + position.coords.speed                 + '<br />' +
-                            'Timestamp: '          + position.timestamp                    + '<br />';
-							
-		var mapDiv = document.getElementById('map');
-        var map = new google.maps.Map(mapDiv, {
-          center: {lat: position.coords.latitude, lng: position.coords.longitude},
-          zoom: 18
-        });
-		var marker = new google.maps.Marker({
-    	position: {lat: position.coords.latitude, lng: position.coords.longitude},
-    	map: map,
-    	title: 'Hello World!'
-  });
-		
-    }
-
-    // onError Callback receives a PositionError object
-    //
-    function onError(error) {
-        alert('code: '    + error.code    + '\n' +
-              'message: ' + error.message + '\n');
-    }
-
-    </script>
 </body>
 </html>
